@@ -3,6 +3,7 @@ let scene, camera, renderer, sphere;
 
 function init() {
     scene = new THREE.Scene();
+    scene.background = new THREE.Color( 0xd3d3d3 );
     camera = new THREE.PerspectiveCamera(
                         75,
                         window.innerWidth/ window.innerHeight,
@@ -16,22 +17,28 @@ function init() {
     
     const ambientLight = new THREE.AmbientLight(0x404040, 80); // Soft white light with intensity 1
     scene.add(ambientLight);
+    
+    createSphere(15);
+    document.getElementById('update-radius').addEventListener('click', updateSphere)
+    camera.position.z = 50;
+}
 
-    // Add a point light for additional effect
-    const pointLight = new THREE.PointLight(0xffffff, 100);
-    pointLight.position.set(10, 10, 10);
-    scene.add(pointLight);
-
-    const geometry = new THREE.SphereGeometry( 15, 32, 16 ); 
+function createSphere(radius) {
+    if (sphere) {
+        scene.remove(sphere);
+    }
+    const geometry = new THREE.SphereGeometry( radius, 32, 16 ); 
     const texture = new THREE.TextureLoader().load('textures/image.png');
     const material = new THREE.MeshPhongMaterial({ map: texture });
 
     sphere = new THREE.Mesh( geometry, material ); 
     scene.add( sphere );
-
-    camera.position.z = 50;
 }
 
+function updateSphere() {
+    const radius = document.getElementById("radius").value;
+    createSphere(radius);
+}
 
 function animate() {
     requestAnimationFrame(animate);

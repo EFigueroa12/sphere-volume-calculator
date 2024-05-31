@@ -6,10 +6,28 @@
         <title> Three JS for Sphere </title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
-            body { margin: 0;}
+            body { 
+                margin: 0;
+            }
+            canvas {
+                display: block;
+                background-color: 0xd3d3d3;
+            }
+            #input-container {
+                position: absolute;
+                z-index: 100;
+                top: 10px;
+                left: 10px;
+            }
         </style>
     </head>
     <body>
         <script type="module" src="main.js"></script>
+
+        <div class="input-container">
+            <label for="radius"> Sphere Radius: </label>
+            <input type="number" id="radius" value="15" min="1"></input>
+            <button id="update-radius"> Calculate Volume </button>
+        </div>
     </body>
 </html>
