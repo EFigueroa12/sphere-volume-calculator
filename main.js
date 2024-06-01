@@ -30,11 +30,20 @@ function init() {
         }
     })
 
-    // const slider = document.getElementById("range").addEventListener('click', updateSphere)
-
+    const slider = document.getElementById("slide-range").addEventListener('click', updateSlider);
+    
     camera.position.z = 50;
 }
 
+function updateSlider() {
+    const slider = document.getElementById("slide-range");
+    const slideVal = document.getElementById("slide-value");
+    slideVal.innerHTML = slider.value;
+    slider.oninput = function() {
+        slideVal.innerHTML = this.value;
+        document.getElementById("volume-result").innerHTML = calculateVolume(this.value);
+    }
+}
 function createSphere(radius) {
     if (sphere) {
         scene.remove(sphere);
