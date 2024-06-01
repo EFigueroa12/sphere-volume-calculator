@@ -13,21 +13,62 @@
                 display: block;
                 background-color: 0xd3d3d3;
             }
-            #input-container {
-                position: absolute;
-                z-index: 100;
-                top: 10px;
-                left: 10px;
+            .input-container {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                margin: 0 auto;
+                text-align: center;
+            }
+            .formula {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                margin: 0 auto;
+                text-align: center;
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+            .vol-result {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                margin: 0 auto;
+                text-align: center;
             }
         </style>
     </head>
     <body>
         <script type="module" src="main.js"></script>
-
+        <div class="input-container">
+            <h1> Radius to Volume of Sphere Calculator </h1>
+        </div>
         <div class="input-container">
             <label for="radius"> Sphere Radius: </label>
-            <input type="number" id="radius" value="15" min="1"></input>
+            <input type="number" id="radius" value="15" min="0"></input>
             <button id="update-radius"> Calculate Volume </button>
+        </div>
+        <div class="formula">
+            <math>
+                <mi>V</mi>
+                <mo>=</mo>
+                <mfrac>
+                    <mn>4</mn>
+                    <mn>3</mn>
+                </mfrac>
+                <mi>π</mi>
+                <msup>
+                    <mi>r</mi>
+                    <mn>3</mn>
+                </msup>
+            </math>
+        </div>
+        <div class="vol-result">
+            <label for="volume-result"> Volume: </label>
+            <b id="volume-result"></b>
+        </div>
+        <div class="slide-container">
+            <input type="range" min="0" max="100" value="50" class="slider" id="range">
         </div>
     </body>
 </html>

@@ -19,7 +19,19 @@ function init() {
     scene.add(ambientLight);
     
     createSphere(15);
+    updateCamera(15);
+    document.getElementById("volume-result").innerHTML = calculateVolume(15);
     document.getElementById('update-radius').addEventListener('click', updateSphere)
+    document.getElementById('radius').addEventListener('click', updateSphere)
+    document.getElementById('radius').addEventListener('keypress', function(event) {
+        if (event.key == "Enter") {
+            event.preventDefault();
+            document.getElementById("radius").click();
+        }
+    })
+
+    // const slider = document.getElementById("range").addEventListener('click', updateSphere)
+
     camera.position.z = 50;
 }
 
@@ -37,9 +49,30 @@ function createSphere(radius) {
 
 function updateSphere() {
     const radius = document.getElementById("radius").value;
-    createSphere(radius);
+    if (radius > 0) {
+        createSphere(radius);
+        updateCamera(radius);
+        document.getElementById("volume-result").innerHTML = calculateVolume(radius);
+    }
+    else {
+        if(radius == 0) {
+            document.getElementById("volume-result").innerHTML = "0";
+        }
+        else{
+            document.getElementById("volume-result").innerHTML = "Enter a positive number."
+    
+        }
+    }
 }
 
+function updateCamera(radius) {
+    const distance = radius * 3;
+    camera.position.z = distance;
+}
+
+function calculateVolume(radius) {
+    return (4/3) * Math.PI * radius**3;
+}
 function animate() {
     requestAnimationFrame(animate);
     sphere.rotation.x += 0.01;
