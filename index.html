@@ -36,6 +36,12 @@
                 margin: 0 auto;
                 text-align: center;
             }
+            .log-slide {
+                display: none;
+            }
+            .lin-slide {
+                display: none;
+            }
         </style>
     </head>
     <body>
@@ -68,14 +74,18 @@
             <b id="volume-result"></b>
         </div>
         <label>
-            <input type="radio" name="scale" value="linear" checked> Linear
+            <button id="lin" name="scale"> Linear Scale </button>
         </label>
         <label>
-            <input type="radio" name="scale" value="logarithmic"> Logarithmic
+            <button id="log" name="scale"> Logarithmic Scale </button>
         </label>
-        <div class="slide-container">
+        <div class="lin-slide" id="lin-slide-container">
             <input type="range" min="0" max="100" value="50" class="slider" id="slide-range">
             <p> Value: <span id="slide-value"></span></p>
+        </div>
+        <div class="log-slide" id="log-slide-container">
+            <input type="range" min="-2" max="8" value="3" class="slider" id="log-slide-range">
+            <p> Value: <span id="log-slide-value"></span></p>
         </div>
     </body>
 </html>

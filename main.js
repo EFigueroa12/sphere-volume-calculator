@@ -30,11 +30,46 @@ function init() {
         }
     })
 
-    const slider = document.getElementById("slide-range").addEventListener('click', updateSlider);
-    
+    document.getElementById("slide-range").addEventListener('click', updateSlider);
+    document.getElementById("log-slide-range").addEventListener('click', updateLogSlider);
+
+    document.getElementById('lin').addEventListener('click', linearSlide)
+    document.getElementById('log').addEventListener('click', logSlide)
     camera.position.z = 50;
 }
 
+function linearSlide() {
+    var linear = document.getElementById("lin-slide-container");
+    // upon initial display, set to none
+    if (linear.style.display == ''){
+        linear.style.display = "none"
+    }
+   
+    var log = document.getElementById("log-slide-container");
+    if (linear.style.display== "none"){
+        linear.style.display = "block";
+        log.style.display = "none";
+    }
+    else {
+        linear.style.display = "none";
+    }
+}
+
+function logSlide() {
+    var log = document.getElementById("log-slide-container");
+    //on init display, set to none
+    if(log.style.display==''){
+        log.style.display = "none";
+    }
+    var linear = document.getElementById("lin-slide-container");
+    if (log.style.display == "none"){
+        log.style.display = "block";
+        linear.style.display = "none";
+    }
+    else {
+        log.style.display = "none";
+    }
+}
 function updateSlider() {
     const slider = document.getElementById("slide-range");
     const slideVal = document.getElementById("slide-value");
@@ -42,6 +77,16 @@ function updateSlider() {
     slider.oninput = function() {
         slideVal.innerHTML = this.value;
         document.getElementById("volume-result").innerHTML = calculateVolume(this.value);
+    }
+}
+
+function updateLogSlider() {
+    const slider = document.getElementById("log-slide-range");
+    const slideVal = document.getElementById("log-slide-value");
+    slideVal.innerHTML = slider.value;
+    slider.oninput = function() {
+        slideVal.innerHTML = this.value;
+        document.getElementById("volume-result").innerHTML = calculateVolume(10**this.value);
     }
 }
 function createSphere(radius) {
