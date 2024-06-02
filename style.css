@@ -1,0 +1,83 @@
+body { 
+    margin: 0;
+}
+canvas {
+    display: block;
+}
+.renderer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 50%;
+    margin: 0 auto;
+}
+.slider {
+    -webkit-appearance: none;
+    width: 30%;
+    height: 15px;
+    border-radius: 5px;  
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    
+}
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%; 
+    background: #1ea1a1;
+    cursor: pointer;
+}
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #04AA6D;
+    cursor: pointer;
+}
+.input-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 1%;
+    color: black;
+}
+.formula {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.vol-result {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    text-align: center;
+}
+.scales {
+    position: relative;
+    display: block;
+    justify-content: center;
+    margin: 0 auto;
+    text-align: center;
+}
+.log-slide {
+    display: none;
+}
+.lin-slide {
+    display: none;
+}
+.radius-label {
+    font-size: medium;
+}
