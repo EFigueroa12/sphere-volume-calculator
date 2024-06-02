@@ -1,9 +1,22 @@
 import * as THREE from 'three';
 let scene, camera, renderer, sphere;
 
+let textureGrassSun, textureMesophere, textureThermo, textureSpace, textureSphere;
+
+function preloadTextures() {
+    const loader = new THREE.TextureLoader();
+    textureGrassSun = loader.load('textures/grassSun.jpg');
+    textureMesophere = loader.load('textures/mesophere.jpeg');
+    textureThermo = loader.load('textures/thermo.jpg');
+    textureSpace = loader.load('textures/space.jpg');
+    textureSphere = loader.load('textures/image.png');
+}
+
 function init() {
+    preloadTextures();
+
     scene = new THREE.Scene();
-    scene.background = new THREE.TextureLoader().load('textures/grassSun.jpg');//new THREE.Color( 0xd3d3d3 );
+    scene.background = textureGrassSun;
     camera = new THREE.PerspectiveCamera(
                         75,
                         window.innerWidth/ window.innerHeight,
@@ -11,15 +24,16 @@ function init() {
                         1000
                     );
     renderer = new THREE.WebGLRenderer({ antialias: true});
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(window.innerWidth/2, window.innerHeight/2);
 
-    document.body.appendChild(renderer.domElement);
+    const container = document.getElementById('renderer-container');
+    container.appendChild(renderer.domElement);
     
     const ambientLight = new THREE.AmbientLight(0x404040, 80); // Soft white light with intensity 1
     scene.add(ambientLight);
     
     createSphere(15);
-    updateCamera(15);
+
     document.getElementById("volume-result").innerHTML = calculateVolume(15);
     document.getElementById('update-radius').addEventListener('click', updateSphere)
     document.getElementById('radius').addEventListener('click', updateSphere)
@@ -40,13 +54,10 @@ function init() {
 
 function linearSlide() {
     var linear = document.getElementById("lin-slide-container");
-    // upon initial display, set to none
-    if (linear.style.display == ''){
-        linear.style.display = "none"
-    }
-   
+    linear.classList.toggle('active');
     var log = document.getElementById("log-slide-container");
-    if (linear.style.display== "none"){
+    // upon initial display, set to none
+    if (linear.style.display == '' || linear.style.display== "none"){
         linear.style.display = "block";
         log.style.display = "none";
     }
@@ -57,12 +68,9 @@ function linearSlide() {
 
 function logSlide() {
     var log = document.getElementById("log-slide-container");
-    //on init display, set to none
-    if(log.style.display==''){
-        log.style.display = "none";
-    }
     var linear = document.getElementById("lin-slide-container");
-    if (log.style.display == "none"){
+    //on init display, set to none
+    if(log.style.display=='' || log.style.display == "none"){
         log.style.display = "block";
         linear.style.display = "none";
     }
@@ -98,25 +106,21 @@ function createSphere(radius) {
         radius = 1000;
     }
     const geometry = new THREE.SphereGeometry( radius, 32, 16 ); 
-    const texture = new THREE.TextureLoader().load('textures/image.png');
-    const material = new THREE.MeshPhongMaterial({ map: texture });
-
+    const material = new THREE.MeshPhongMaterial({ map: textureSphere });
     sphere = new THREE.Mesh( geometry, material ); 
     scene.add( sphere );
+
     if (radius < 30) {
-        scene.background = new THREE.TextureLoader().load('textures/grassSun.jpg');
+        scene.background = textureGrassSun;
         camera.position.z = 50;
-    }
-    if(radius > 29 && radius < 60) {
-        scene.background = new THREE.TextureLoader().load('textures/mesophere.jpeg');
+    } else if (radius >= 30 && radius < 60) {
+        scene.background = textureMesophere;
         camera.position.z = 100;
-    }
-    if(radius > 59 && radius < 650) {
-        scene.background = new THREE.TextureLoader().load('textures/thermo.jpg');
+    } else if (radius >= 60 && radius < 650) {
+        scene.background = textureThermo;
         camera.position.z = 1000;
-    }
-    if(radius > 649) {
-        scene.background = new THREE.TextureLoader().load('textures/space.jpg');
+    } else {
+        scene.background = textureSpace;
         camera.position.z = 1500;
     }
 }
@@ -125,7 +129,6 @@ function updateSphere() {
     const radius = document.getElementById("radius").value;
     if (radius > 0) {
         createSphere(radius);
-        updateCamera(radius);
         document.getElementById("volume-result").innerHTML = calculateVolume(radius);
     }
     else {
@@ -137,11 +140,6 @@ function updateSphere() {
     
         }
     }
-}
-
-function updateCamera(radius) {
-    const distance = radius;
-    // camera.position.z = distance;
 }
 
 function calculateVolume(radius) {
