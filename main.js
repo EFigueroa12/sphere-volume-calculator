@@ -3,7 +3,7 @@ let scene, camera, renderer, sphere;
 
 function init() {
     scene = new THREE.Scene();
-    scene.background = new THREE.Color( 0xd3d3d3 );
+    scene.background = new THREE.TextureLoader().load('textures/grassSun.jpg');//new THREE.Color( 0xd3d3d3 );
     camera = new THREE.PerspectiveCamera(
                         75,
                         window.innerWidth/ window.innerHeight,
@@ -76,6 +76,7 @@ function updateSlider() {
     slideVal.innerHTML = slider.value;
     slider.oninput = function() {
         slideVal.innerHTML = this.value;
+        createSphere(this.value);
         document.getElementById("volume-result").innerHTML = calculateVolume(this.value);
     }
 }
@@ -93,12 +94,31 @@ function createSphere(radius) {
     if (sphere) {
         scene.remove(sphere);
     }
+    if (radius > 1000) {
+        radius = 1000;
+    }
     const geometry = new THREE.SphereGeometry( radius, 32, 16 ); 
     const texture = new THREE.TextureLoader().load('textures/image.png');
     const material = new THREE.MeshPhongMaterial({ map: texture });
 
     sphere = new THREE.Mesh( geometry, material ); 
     scene.add( sphere );
+    if (radius < 30) {
+        scene.background = new THREE.TextureLoader().load('textures/grassSun.jpg');
+        camera.position.z = 50;
+    }
+    if(radius > 29 && radius < 60) {
+        scene.background = new THREE.TextureLoader().load('textures/mesophere.jpeg');
+        camera.position.z = 100;
+    }
+    if(radius > 59 && radius < 650) {
+        scene.background = new THREE.TextureLoader().load('textures/thermo.jpg');
+        camera.position.z = 1000;
+    }
+    if(radius > 649) {
+        scene.background = new THREE.TextureLoader().load('textures/space.jpg');
+        camera.position.z = 1500;
+    }
 }
 
 function updateSphere() {
@@ -120,8 +140,8 @@ function updateSphere() {
 }
 
 function updateCamera(radius) {
-    const distance = radius * 3;
-    camera.position.z = distance;
+    const distance = radius;
+    // camera.position.z = distance;
 }
 
 function calculateVolume(radius) {
